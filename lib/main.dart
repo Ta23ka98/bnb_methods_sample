@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'bnb_methods_sample'),
     );
   }
 }
@@ -30,10 +30,32 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  //カウンターから-1する
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  //カウンターから+1する
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+  }
+
+  //BottomNavigationBarのindexを使って、実行するメソッドを切り替える
+  void methodSwitcher(int index) {
+    switch (index) {
+      case 0:
+        //indexが0の場合、_counterを-1する
+        _decrementCounter();
+        break;
+      case 1:
+        //indexが1の場合、_counterを+1する
+        _incrementCounter();
+        break;
+    }
   }
 
   @override
@@ -47,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              '-1と+1でカウンターを操作できます:'
+              '',
             ),
             Text(
               '$_counter',
@@ -56,10 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: methodSwitcher,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.exposure_minus_1), label: "引く"),
+          BottomNavigationBarItem(icon: Icon(Icons.plus_one), label: "足す"),
+        ],
       ),
     );
   }
